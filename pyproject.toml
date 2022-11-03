@@ -11,6 +11,7 @@ replit = "^3.2.4"
 Flask = "^2.2.0"
 urllib3 = "^1.26.12"
 cryptography = "^38.0.2"
+pycryptodome = "^3.15.0"
 
 [tool.poetry.dev-dependencies]
 debugpy = "^1.6.2"

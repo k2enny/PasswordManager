@@ -1,22 +1,35 @@
-import base64
-import os
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-import sqlite3
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from utils import endecrypt, sqlutil
+import hashlib
 
-conn = sqlite3.connect('database.db')
-password = input('password: ').encode('utf_8')
-salt = os.urandom(16)
-kdf = PBKDF2HMAC(
-    algorithm=hashes.SHA512(),
-    length=32,
-    salt=salt,
-    iterations=390000,
-)
-key = base64.urlsafe_b64encode(kdf.derive(password))
-print(key)
-f = Fernet(key)
-token = f.encrypt(b"Secret message!")
-print(token)
-f.decrypt(token)
+#Inizio MySql
+conn = sqlutil.connect()
+sqlutil.create_table(conn)
+c = conn.cursor()
+
+#Organizzaziond Utenti
+print("Scegli un'opzione: \n1) Nuovo utente \n2) Utente già esistente")
+newUser = input("Opzione: ")
+if newUser == '1':
+  usern = input('username: ')
+  passw = input('password: ')
+  hashedPw = hashlib.sha512(passw.encode('utf-8'))
+  c.execute("INSERT INTO users ('username', 'password') VALUES ('" + usern + "', '" + hashedPw.hexdigest() + "');")
+
+if newUser == '2':
+  usern = input('username: ')
+  passw = input('password: ')
+  hashedPw = hashlib.sha512(passw.encode('utf-8'))
+  rightPass = sqlutil.get_pass_by_name(conn, usern)
+  
+  if rightPass == hashedPw.hexdigest():
+    print('Success')
+  
+  
+print(c.execute("SELECT * FROM users").fetchall())
+
+conn.commit()
+
+en = endecrypt.encrypt(b"passw", b"hi")
+print(en)
+de = endecrypt.decrypt(b"passw", en)
+print(de)
