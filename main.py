@@ -20,8 +20,7 @@ if newUser == '1':
   passw = input('password: ')
   hashedPw = hashlib.sha512(passw.encode('utf-8'))
   #Controllo utente già esistente
-  if sqlutil.check_user(conn, usern) == False:
-    quit("Utente già esistente")
+  sqlutil.check_user(conn, usern);
   sqlutil.add_user(conn, usern, hashedPw.hexdigest())
   user = usern
   upass = passw
@@ -60,14 +59,13 @@ while(True):
       quit("Nessuna password salvata")
     passn = int(input("Password Number: "))
     plist = c.execute("SELECT password FROM password WHERE user='" + user + "'").fetchall()
+    print("La password è: " + endecrypt.decrypt(upass.encode('utf-8'), str(plist[passn - 1])).decode('utf-8'))
   if newPassw == '3':
     quit("Programma concluso")
+    #Chiusura connessioni MySQL
+    conn.commit()
+    conn.close()
 
-  print("La password è: " + endecrypt.decrypt(upass.encode('utf-8'), str(plist[passn - 1])).decode('utf-8'))
-
-#Chiusura connessioni MySQL
-conn.commit()
-conn.close()
 
 #☆☆☆☆☆☆☆☆☆☆☆☆
 #

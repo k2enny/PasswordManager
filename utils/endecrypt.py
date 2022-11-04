@@ -25,5 +25,5 @@ def decrypt(key, source, decode=True):
     data = decryptor.decrypt(source[AES.block_size:])
     padding = data[-1]
     if data[-padding:] != bytes([padding]) * padding:
-        raise ValueError("...")
+        raise ValueError("Padding non valido...")
     return data[:-padding]
