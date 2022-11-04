@@ -67,7 +67,7 @@ conn.close()
 
 #☆☆☆☆☆☆☆☆☆☆☆☆
 #
-#if (WhoMade.is(k2enny)) {
+#if (WhoMade.is("k2enny")) {
 #  System.out.println("k2ennyyyy");
 #}
 #
