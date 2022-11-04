@@ -38,28 +38,32 @@ if newUser == '2':
   else:
     quit("Password sbagliata")
 
+while(True):
 #Password Manager
-print("Scegli un'opzione: \n1) Nuova password \n2) Ottieni password")
-newPassw = input("Opzione: ")
+  print("Scegli un'opzione: \n1) Nuova password \n2) Ottieni password \n3) Esci")
+  newPassw = input("Opzione: ")
 #Nuova password
-if newPassw == '1':
-  name = input("Password Name: ")
-  passw = input("Password: ")
-  enpassw = endecrypt.encrypt(upass.encode('utf-8'), passw.encode('utf-8'))
-  sqlutil.add_password(conn, name, enpassw, user)
+  if newPassw == '1':
+    name = input("Password Name: ")
+    passw = input("Password: ")
+    enpassw = endecrypt.encrypt(upass.encode('utf-8'), passw.encode('utf-8'))
+    sqlutil.add_password(conn, name, enpassw, user)
 #Ottieni lista password
-if newPassw == '2':
-  list = 0
-  nlist = c.execute("SELECT name FROM password WHERE user='" + user + "'").fetchall()
-  for n in nlist:
-    list += 1
-    print(str(list) + ") " + str(n[0]))
+  if newPassw == '2':
+    list = 0
+    nlist = c.execute("SELECT name FROM password WHERE user='" + user + "'").fetchall()
+    for n in nlist:
+      list += 1
+      print(str(list) + ") " + str(n[0]))
   #Controllo lista password non vuota
-  if list == 0:
-    quit("Nessuna password salvata")
-  passn = int(input("Password Number: "))
-  plist = c.execute("SELECT password FROM password WHERE user='" + user + "'").fetchall()
-  print(endecrypt.decrypt(upass.encode('utf-8'), str(plist[passn - 1])).decode('utf-8'))
+    if list == 0:
+      quit("Nessuna password salvata")
+    passn = int(input("Password Number: "))
+    plist = c.execute("SELECT password FROM password WHERE user='" + user + "'").fetchall()
+  if newPassw == '3':
+    quit("Programma concluso")
+
+  print("La password è: " + endecrypt.decrypt(upass.encode('utf-8'), str(plist[passn - 1])).decode('utf-8'))
 
 #Chiusura connessioni MySQL
 conn.commit()
