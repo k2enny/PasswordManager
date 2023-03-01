@@ -61,10 +61,10 @@ while(True):
     plist = c.execute("SELECT password FROM password WHERE user='" + user + "'").fetchall()
     print("La password è: " + endecrypt.decrypt(upass.encode('utf-8'), str(plist[passn - 1])).decode('utf-8'))
   if newPassw == '3':
-    quit("Programma concluso")
     #Chiusura connessioni MySQL
     conn.commit()
     conn.close()
+    quit("Programma concluso")
 
 
 #☆☆☆☆☆☆☆☆☆☆☆☆
