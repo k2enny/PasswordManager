@@ -9,5 +9,9 @@ To-do:
 
 • Add online database connection
 
+• Translate all to english
+
+
+
 
 Before using or downloading the software read the LICENSE file
